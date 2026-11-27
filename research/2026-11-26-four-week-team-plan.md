@@ -12,18 +12,20 @@
 
 Resolve these in **one short meeting** (record in group diary). Block GitLab issues until decided.
 
-| # | Decision | Why it blocks integration |
-|---|----------|---------------------------|
-| 1 | **Canvas group ID** → folder `agents/GroupXYZ/` and `cmd.txt` | Wrong name = failed load |
-| 2 | **Search language:** Python-only v1 vs **compiled core** (C++/Rust/Go) behind thin Python `AgentBase` | Drives `build.sh`, who owns B, sim counts |
-| 3 | **Single entry agent class** (e.g. `MyAgent`) + **feature flags** (`USE_STUDENT = False`) | Stage 3 must not break Stage 1 submit |
-| 4 | **Teacher data policy:** train only on **your** bot’s games until staff confirm in writing whether external engines (KataHex, etc.) are allowed for labels | Approach mark / integrity |
-| 5 | **Generative AI:** what's allowed on Canvas vs stale text in repo README/GAME | Disclosure in journal |
-| 6 | **Git workflow:** `main` always passes `check_submission` on amd64 Docker; `feat/*` branches | Pre-check 14 Dec safety |
-| 7 | **Integration contract** (Section 3 below) — names of modules and function signatures | Parallel work |
-| 8 | **Map A/B/C/D → real names** + who submits weekly group diary | Journal is marked |
-| 9 | **Minimum experiment standard:** e.g. ≥100 games, both colours, log CSV for journal | Approach mark evidence |
-| 10 | **Time budget policy:** opening/book instant, default 1–2 s/move, boost on tight eval | Speed mark (25% of performance) |
+| # | Decision | Why it blocks integration | Response (Group 18) |
+|---|----------|---------------------------|---------------------|
+| 1 | **Canvas group ID** → folder `agents/GroupXYZ/` and `cmd.txt` | Wrong name = failed load | **Agreed:** Canvas group **18** → `agents/Group018/`, `Group018.tar`, `check_submission.py 18` / `Group018`. **14 Dec pre-check upload:** A (Abs). |
+| 2 | **Search language:** Python-only v1 vs **compiled core** (C++/Rust/Go) behind thin Python `AgentBase` | Drives `build.sh`, who owns B, sim counts | **Agreed:** **Python MCTS in week 1.** **Week 2 checkpoint:** B (Laymoi) reviews sim-count / move-time metrics; decide then whether to escalate compiled `search/` (+ `build.sh`). |
+| 3 | **Single entry agent class** (e.g. `MyAgent`) + **feature flags** (`USE_STUDENT = False`) | Stage 3 must not break Stage 1 submit | **Agreed:** one `MyAgent`; `USE_STUDENT = False` default until A/B says enable. |
+| 4 | **Teacher data policy:** train only on **your** bot’s games until staff confirm in writing whether external engines (KataHex, etc.) are allowed for labels | Approach mark / integrity | **Default:** own slow-MCTS labels only. **Week 2:** email staff to confirm external-engine labelling; until reply, stay on own games. |
+| 5 | **Generative AI** (Canvas brief + journal disclosure) | Approach / integrity | **Resolved:** course allows GenAI; repo `README.md` / `docs/GAME.md` do not prohibit it. **Disclose** tool use in individual + group journals per Canvas. (Stale “human-written only” lines in `research/` memos are not course policy.) |
+| 6 | **Git workflow:** `main` always passes `check_submission` on amd64 Docker; `feat/*` branches | Pre-check 14 Dec safety | **In progress:** team will adopt (`main` submittable, `feat/*`, 2×/week merge + smoke). Not configured in tracker yet. |
+| 7 | **Integration contract** (Section 3 below) — names of modules and function signatures | Parallel work | **Owner:** A (Abs) defines and **freezes `core` API end of week 1**; publishes signatures before B/C/D deepen work. |
+| 8 | **Map A/B/C/D → real names** + who submits weekly group diary | Journal is marked | **A** Abs · **B** Laymoi · **C** Ghiles · **D** Idris. Group diary: rotate weekly (minutes in Canvas). |
+| 9 | **Minimum experiment standard:** e.g. ≥100 games, both colours, log CSV for journal | Approach mark evidence | **Pending next meeting:** C + B (bench + search) propose numbers/CSV columns; **all experiment runners** ratify before journal claims. Plan default still ≥100 games, both colours, `--seed`. |
+| 10 | **Time budget policy:** opening/book instant, default 1–2 s/move, boost on tight eval | Speed mark (25% of performance) | **Not learned** (Stage 1): hand-coded chess-clock split for MCTS—book/opening ply ≈0 s; typical ply ~1–2 s; **boost** when `knowledge.evaluate` says tight (optional thresholds in `config.py`). **Agree constants in week 1** (B owns scheduler, C inputs eval hook, A wires `make_move`); tune in week 3 against logs. |
+
+**Time budget (row 10) — not ML:** Marking gives **5 minutes total per game** ([`docs/GAME.md`](../docs/GAME.md)). The time manager decides **how many seconds this move’s `best_move(..., budget_sec)` gets** from time left and moves left. That rule is engineering choice for Stage 1, not something the CNN/RL student learns (student is optional **root prior** only later).
 
 **Preliminary analysis (half day, person D + one other):**
 
@@ -86,6 +88,8 @@ GroupXYZ/
 | `bench` | `play_series()`, `write_teacher_row()` | CLI, config paths |
 
 **Rule:** Stage 2/3 **never** replace `search` until `bench` shows win-rate gain after speed adjustment.
+
+**Knowledge priority (MoHex-aligned):** Literature and MoHex itself treat **virtual connections (VCs)**—not raw MCTS sim count—as the main separator from “random UCT on Hex.” Bridges are the smallest VC case; must-play / connection-style pruning from partial VCs is where most MoHex-style strength comes from relative to bare search. **This is the lever the team most needs to get right:** invest in correct VC-related logic (and how it feeds `tactical_move`, move pruning, and `evaluate` for time boosts) before chasing optional ML. A full Benzene H-search port stays out of scope (Section 4); incremental VC work in `knowledge/` is **P0** for win rate, not a polish item.
 
 ---
 
