@@ -32,9 +32,6 @@ needs, and, if your agent has compiled parts, their source and a `build.sh`
 (see [Compiled code and build.sh](#compiled-code-and-buildsh)). Do not include
 copies of libraries: use only the packages in the Docker image.
 
-**This assessment is AI prohibited:** all submissions must be written by
-humans (see the coursework brief).
-
 Before you submit, follow the [submission checklist](SUBMISSION-CHECKLIST.md):
 it tells you how to test your bot in the container with
 `check_submission.py`, and how to test your `.tar` file on a fresh copy of
@@ -42,16 +39,16 @@ the repository.
 
 **IMPORTANT:** We do not accept fixes for broken bots after the deadline. However,
 we will test your bot for you before the deadline. If you submit **before 14 December 14:00**
-we will tell you if your bot runs within the time limit, and if we can rebuild its 
-compiled parts with its `build.sh`. We will not tell you its speed or 
+we will tell you if your bot runs within the time limit, and if we can rebuild its
+compiled parts with its `build.sh`. We will not tell you its speed or
 performance. You may change your submission after this and resubmit as many times
-as you like, but we will not test any submissions after 14 December 14:00. 
+as you like, but we will not test any submissions after 14 December 14:00.
 **It is your responsibility to ensure your bot runs and builds correctly ahead of the deadline.**
 
 ## General Information
 
 - The rules for Hex can be found
-  [here](https://en.wikipedia.org/wiki/Hex_(board_game)).
+  [here](<https://en.wikipedia.org/wiki/Hex_(board_game)>).
 - The board is 11x11, and it is represented by a 0-indexed two-dimensional
   matrix with rows that fall diagonally to the right. The tile `(x, y)` is in
   row `x` (0 = top) and column `y` (0 = left): in code it is
@@ -60,11 +57,11 @@ as you like, but we will not test any submissions after 14 December 14:00.
   `(x-1, y+1)` in the row above, and `(x+1, y-1)` and `(x+1, y)` in the row
   below. Below you can see the neighbours of tile X = (1, 2) marked as N:
 
-  | row x \ column y | 0 | 1 | 2 | 3 | 4 |
-  | --- | --- | --- | --- | --- | --- |
-  | 0 | 0 | 0 | N | N | 0 |
-  | 1 | 0 | N | X | N | 0 |
-  | 2 | 0 | N | N | 0 | 0 |
+  | row x \ column y | 0   | 1   | 2   | 3   | 4   |
+  | ---------------- | --- | --- | --- | --- | --- |
+  | 0                | 0   | 0   | N   | N   | 0   |
+  | 1                | 0   | N   | X   | N   | 0   |
+  | 2                | 0   | N   | N   | 0   | 0   |
 
 - Red aims to connect the top and bottom sides (rows 0 and 10), while Blue
   connects the left and right sides (columns 0 and 10). Red (player 1) moves
@@ -205,18 +202,18 @@ separated by a comma. For example, a 2x2 board on turn 1 would be given as
 
 Example commands:
 
-| Command | Explanation |
-| --- | --- |
-| `START;;000,000,000;1;\n` | Request for the opening move of a game using a 3x3 board |
-| `SWAP;;0R0,000,000;3;\n` | The opponent has swapped colours on turn 2 and the player agent is about to make move 3 |
-| `CHANGE;0,1;0R0,000,000;2;\n` | The opponent changed tile (0,1) to red as their opening move |
+| Command                       | Explanation                                                                             |
+| ----------------------------- | --------------------------------------------------------------------------------------- |
+| `START;;000,000,000;1;\n`     | Request for the opening move of a game using a 3x3 board                                |
+| `SWAP;;0R0,000,000;3;\n`      | The opponent has swapped colours on turn 2 and the player agent is about to make move 3 |
+| `CHANGE;0,1;0R0,000,000;2;\n` | The opponent changed tile (0,1) to red as their opening move                            |
 
 Example responses:
 
-| Response | Explanation |
-| --- | --- |
-| `1,2\n` | Change the tile with the coordinates (1,2) to your colour |
-| `-1,-1\n` | Make a swap move |
+| Response  | Explanation                                               |
+| --------- | --------------------------------------------------------- |
+| `1,2\n`   | Change the tile with the coordinates (1,2) to your colour |
+| `-1,-1\n` | Make a swap move                                          |
 
 Important:
 
@@ -243,17 +240,17 @@ folder from which all compiled files have been removed. The build may use the
 network (for example to download Rust crates or Go modules). Limits for builds are:
 30 minutes, 8 CPUs, 16 GB of memory.
 
-| Outcome | Result |
-| --- | --- |
-| Our rebuild works | Games use the files you submitted. |
-| Your submitted files do not run on the marking machine, but our rebuilt files do | Games use our rebuilt files. |
-| Our rebuild fails, or a compiled file has no source | Your agent is marked as an agent that does not run (32%). |
-| Your files and our rebuilt files behave very differently | We review your submission by hand. |
+| Outcome                                                                          | Result                                                    |
+| -------------------------------------------------------------------------------- | --------------------------------------------------------- |
+| Our rebuild works                                                                | Games use the files you submitted.                        |
+| Your submitted files do not run on the marking machine, but our rebuilt files do | Games use our rebuilt files.                              |
+| Our rebuild fails, or a compiled file has no source                              | Your agent is marked as an agent that does not run (32%). |
+| Your files and our rebuilt files behave very differently                         | We review your submission by hand.                        |
 
 The build image has g++ (GCC 13), cmake, ninja, the Python 3.12 headers,
 pybind11, Cython, Java 21, Go and Rust (with the `x86_64-unknown-linux-musl`
 target). The exact versions are in `/etc/hex-build-tools.txt` and
-`/etc/hex-pip-freeze.txt` in the image. If you want to use a different language 
+`/etc/hex-pip-freeze.txt` in the image. If you want to use a different language
 or toolchain, speak to the course staff.
 
 Advice:
@@ -293,11 +290,11 @@ the repository root.
 
 Example commands:
 
-| Command | Explanation |
-| --- | --- |
-| `python3 Hex.py` | Run the game engine with two default agents |
-| `python3 Hex.py -p1 "agents.Group007.MyAgent MyGoodAgent"` | Run the game engine with player 1 as the class `MyGoodAgent` in the file `agents/Group007/MyAgent.py`, and player 2 as default agent |
-| `python3 Hex.py -p2 "agents.Group007.MyAgent MyGoodAgent"` | Run the game engine with player 2 as the class `MyGoodAgent` in the file `agents/Group007/MyAgent.py`, and player 1 as default agent |
+| Command                                                                                                  | Explanation                                                                                                                                                                                  |
+| -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `python3 Hex.py`                                                                                         | Run the game engine with two default agents                                                                                                                                                  |
+| `python3 Hex.py -p1 "agents.Group007.MyAgent MyGoodAgent"`                                               | Run the game engine with player 1 as the class `MyGoodAgent` in the file `agents/Group007/MyAgent.py`, and player 2 as default agent                                                         |
+| `python3 Hex.py -p2 "agents.Group007.MyAgent MyGoodAgent"`                                               | Run the game engine with player 2 as the class `MyGoodAgent` in the file `agents/Group007/MyAgent.py`, and player 1 as default agent                                                         |
 | `python3 Hex.py -p1 "agents.Group007.MyOtherAgent MyBadAgent" -p2 "agents.Group007.MyAgent MyGoodAgent"` | Run the game engine with player 1 as the class `MyBadAgent` from the file `agents/Group007/MyOtherAgent.py` and player 2 as the class `MyGoodAgent` in the file `agents/Group007/MyAgent.py` |
 
 The first command will play a game between two Naive agents, located at
@@ -311,17 +308,17 @@ To see all the available options and arguments of the engine use
 used when specifying arguments which contain spaces, i.e. the `-p1` and
 `-p2` arguments.)
 
-| Argument | Usage |
-| --- | --- |
-| `-p1`, `--player1` | Specify the player 1 agent. Format: `agents.GroupXYZ.AgentFile AgentClassName`, e.g. `"agents.Group007.NaiveAgent NaiveAgent"` |
-| `-p1Name`, `--player1Name` | Specify the player 1 name (default `Red`) |
-| `-p2`, `--player2` | Specify the player 2 agent, in the same format |
-| `-p2Name`, `--player2Name` | Specify the player 2 name (default `Blue`) |
-| `-v`, `--verbose` | Enable verbose logging |
-| `-b`, `--board_size` | Specify the board size\*, e.g. `-b 11` |
-| `-l`, `--log` | Save the move history to a log file. If the flag is present, the result is saved to `game.log`; if a filename is provided, to that file. If the flag is not present, the log is printed to stderr. |
-| `--seed` | Random seed for the game (player 1 gets the seed, player 2 the seed + 1). Without it, the engine chooses a seed and prints it, so that you can repeat a game. |
-| `--debug` | Debug mode: run both agents inside the engine's process, as in the 2025 engine, so that you can use a debugger (`pdb`, `breakpoint()`) in your agent. Agents are not paused, and there are no time limits (time spent in the debugger counts on your clock, but your agent does not lose by `TIMEOUT`). Marked games do not use this. |
+| Argument                   | Usage                                                                                                                                                                                                                                                                                                                                 |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `-p1`, `--player1`         | Specify the player 1 agent. Format: `agents.GroupXYZ.AgentFile AgentClassName`, e.g. `"agents.Group007.NaiveAgent NaiveAgent"`                                                                                                                                                                                                        |
+| `-p1Name`, `--player1Name` | Specify the player 1 name (default `Red`)                                                                                                                                                                                                                                                                                             |
+| `-p2`, `--player2`         | Specify the player 2 agent, in the same format                                                                                                                                                                                                                                                                                        |
+| `-p2Name`, `--player2Name` | Specify the player 2 name (default `Blue`)                                                                                                                                                                                                                                                                                            |
+| `-v`, `--verbose`          | Enable verbose logging                                                                                                                                                                                                                                                                                                                |
+| `-b`, `--board_size`       | Specify the board size\*, e.g. `-b 11`                                                                                                                                                                                                                                                                                                |
+| `-l`, `--log`              | Save the move history to a log file. If the flag is present, the result is saved to `game.log`; if a filename is provided, to that file. If the flag is not present, the log is printed to stderr.                                                                                                                                    |
+| `--seed`                   | Random seed for the game (player 1 gets the seed, player 2 the seed + 1). Without it, the engine chooses a seed and prints it, so that you can repeat a game.                                                                                                                                                                         |
+| `--debug`                  | Debug mode: run both agents inside the engine's process, as in the 2025 engine, so that you can use a debugger (`pdb`, `breakpoint()`) in your agent. Agents are not paused, and there are no time limits (time spent in the debugger counts on your clock, but your agent does not lose by `TIMEOUT`). Marked games do not use this. |
 
 \* Your agent will be tested on an 11x11 board; this option is provided for
 development.
