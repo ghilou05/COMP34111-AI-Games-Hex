@@ -3,16 +3,13 @@
 Do these steps before you submit, and again after each change to your bot.
 Run all commands **inside the Docker container**, from the repository root,
 unless a step says something different. The container is the environment of
-marked games and is how we guarantee that your bot will run in the same way 
-on our marking machine. 
+marked games and is how we guarantee that your bot will run in the same way
+on our marking machine.
 
 In the examples, the group number is 7, so the folder is `Group007`. Use
 your own Canvas group number, always with three digits.
 
-The rules are in [GAME.md](GAME.md). 
-
-**This assessment is AI prohibited:** all submissions must be written by
-humans (see the coursework brief).
+The rules are in [GAME.md](GAME.md).
 
 ## 1. Start the container
 
@@ -21,9 +18,9 @@ Use `--cpuset-cpus=0-7 --memory=16g`, because a marked game has these
 resources (leave out `--cpuset-cpus` if your computer has fewer than 8 CPUs).
 On an Apple Silicon Mac, build with `--platform linux/amd64`.
 
-IMPORTANT: do not change the `Dockerfile`. If you changed the Dockerfile for 
+IMPORTANT: do not change the `Dockerfile`. If you changed the Dockerfile for
 any reason, build the image again from the original `Dockerfile` on GitHub.
-We will use our own copy to build your bot. 
+We will use our own copy to build your bot.
 
 ## 2. Check your folder
 
@@ -79,7 +76,7 @@ own process and is paused during the opponent's turn. You should check:
 - [ ] There is no `FAIL` line. Fix every `FAIL` before you submit.
 - [ ] Read every `WARNING` line:
   - start-up above 90 s, or more than 150 s of move time in a game: the limits
-    are 3 minutes for start-up and 5 minutes to play the game. The marking machine 
+    are 3 minutes for start-up and 5 minutes to play the game. The marking machine
     (Intel Xeon, 2.0 GHz base frequency) can be slower than your computer, so leave a
     margin.
   - `rule check`: a process of your bot used CPU time while your bot was
@@ -99,6 +96,7 @@ python3 Hex.py -p1 "agents.DefaultAgents.NaiveAgent NaiveAgent" -p2 "agents.Grou
 ```
 
 Check:
+
 - [ ] Each game ends with `WIN` (see the last line of the log), not
       `TIMEOUT`, `BAD_MOVE`, `CRASH` or `FAILED_LOAD`.
 - [ ] The log has no `# WARNING` lines.
@@ -121,6 +119,7 @@ cd ..
 ```
 
 Check:
+
 - [ ] The file name is `Group007.tar`, and every line of `tar -tf` starts
       with `Group007/`.
 - [ ] The file is at most 1 GB (`ls -lh agents/Group007.tar`).
@@ -157,6 +156,7 @@ If your bot has no compiled parts, you can use the image `hex` instead of
 `hex-build`.
 
 Check:
+
 - [ ] `check_submission.py` passes on the fresh copy.
 - [ ] If your bot has compiled parts: `build.sh` works on the fresh copy, and
       `check_submission.py` passes with the rebuilt files.
